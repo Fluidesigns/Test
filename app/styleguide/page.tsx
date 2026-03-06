@@ -1,4 +1,29 @@
+"use client";
+
+import React, { useState } from "react";
 import tokens from "@/styles/design-tokens";
+import {
+  Button,
+  Input,
+  Select,
+  Checkbox,
+  RadioItem,
+  RadioGroup,
+  Toggle,
+  Badge,
+  Alert,
+  Progress,
+  Toast,
+  Spinner,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Modal,
+  Tooltip,
+  Avatar,
+  AvatarGroup,
+} from "@/components/ui";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -48,12 +73,17 @@ function Chip({ label, value, mono = true }: { label: string; value: string; mon
 // ─── Nav ─────────────────────────────────────────────────────────────────────
 
 const NAV = [
-  { id: "colors",       label: "Colors"       },
-  { id: "typography",   label: "Typography"   },
-  { id: "spacing",      label: "Spacing"      },
-  { id: "radius",       label: "Border Radius"},
-  { id: "shadows",      label: "Shadows"      },
-  { id: "breakpoints",  label: "Breakpoints"  },
+  { id: "colors",       label: "Colors"        },
+  { id: "typography",   label: "Typography"    },
+  { id: "spacing",      label: "Spacing"       },
+  { id: "radius",       label: "Border Radius" },
+  { id: "shadows",      label: "Shadows"       },
+  { id: "breakpoints",  label: "Breakpoints"   },
+  // ── Components ──
+  { id: "c-button",     label: "Button"        },
+  { id: "c-form",       label: "Form Inputs"   },
+  { id: "c-feedback",   label: "Feedback"      },
+  { id: "c-layout",     label: "Layout"        },
 ];
 
 // ─── Color groups ─────────────────────────────────────────────────────────────
@@ -171,6 +201,115 @@ const TYPE_SCALE = Object.entries(tokens.fontSize) as FontSizeEntry[];
 const SPACING_PREVIEW = Object.entries(tokens.spacing).filter(([k]) =>
   ["0", "1", "2", "3", "4", "6", "8", "10", "12", "16", "20", "24", "32", "40", "48", "64"].includes(k)
 );
+
+// ─── ComponentLayoutSection ───────────────────────────────────────────────────
+
+function ComponentLayoutSection() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  return (
+    <Section
+      id="c-layout"
+      title="Layout & Containers"
+      subtitle="Card, Modal, Tooltip, Avatar — surface, elevation and overlay tokens"
+    >
+      {/* Cards */}
+      <Sub title="Card variants">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {(["default", "outlined", "elevated", "filled"] as const).map((v) => (
+            <Card key={v} variant={v}>
+              <CardHeader title={v.charAt(0).toUpperCase() + v.slice(1)} subtitle={`variant="${v}"`} />
+              <CardBody>
+                <p>Card body text with <code className="font-mono text-xs bg-neutral-100 px-1 rounded">text-text-secondary</code> colour.</p>
+              </CardBody>
+              <CardFooter>
+                <Button size="sm" variant="outline">Action</Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      </Sub>
+
+      {/* Modal */}
+      <Sub title="Modal">
+        <div className="flex flex-wrap gap-3">
+          <Button onClick={() => setModalOpen(true)}>Open Modal</Button>
+          <Button variant="outline" onClick={() => setModalOpen(true)}>Open (outline)</Button>
+        </div>
+        <Modal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          title="Modal title"
+          description="An accessible dialog with focus trap, backdrop click and Escape key support."
+          size="md"
+          footer={
+            <div className="flex gap-3 justify-end">
+              <Button variant="ghost" onClick={() => setModalOpen(false)}>Cancel</Button>
+              <Button onClick={() => setModalOpen(false)}>Confirm</Button>
+            </div>
+          }
+        >
+          <p className="text-sm text-text-secondary">
+            Modal content goes here. The body scrolls independently when content overflows.
+            Use <code className="font-mono text-xs bg-neutral-100 px-1 rounded">size</code> prop
+            to control width: <strong>xs · sm · md · lg · xl · full</strong>.
+          </p>
+          <div className="mt-4 flex gap-2">
+            <Badge variant="primary">primary</Badge>
+            <Badge variant="success">success</Badge>
+            <Badge variant="warning">warning</Badge>
+          </div>
+        </Modal>
+      </Sub>
+
+      {/* Tooltip */}
+      <Sub title="Tooltip">
+        <div className="flex flex-wrap gap-6">
+          {(["top", "right", "bottom", "left"] as const).map((pos) => (
+            <Tooltip key={pos} content={`Tooltip — ${pos}`} position={pos}>
+              <Button variant="outline" size="sm">{pos}</Button>
+            </Tooltip>
+          ))}
+        </div>
+      </Sub>
+
+      {/* Avatar */}
+      <Sub title="Avatar">
+        <div className="flex flex-wrap items-end gap-4 mb-6">
+          {(["xs", "sm", "md", "lg", "xl", "2xl"] as const).map((sz) => (
+            <div key={sz} className="flex flex-col items-center gap-1.5">
+              <Avatar initials="GK" size={sz} color="primary" />
+              <span className="font-mono text-[10px] text-neutral-400">{sz}</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-wrap gap-4 mb-6">
+          {(["online", "offline", "busy", "away"] as const).map((s) => (
+            <div key={s} className="flex flex-col items-center gap-1.5">
+              <Avatar initials={s.slice(0, 2).toUpperCase()} size="md" status={s} color="neutral" />
+              <span className="text-[10px] text-neutral-400">{s}</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-3">
+          <AvatarGroup
+            size="md"
+            avatars={[
+              { initials: "AA", color: "primary" },
+              { initials: "BB", color: "secondary" },
+              { initials: "CC", color: "success" },
+              { initials: "DD", color: "warning" },
+              { initials: "EE", color: "error" },
+              { initials: "FF", color: "info" },
+            ]}
+            max={4}
+          />
+          <span className="text-sm text-text-secondary">AvatarGroup with max=4 (+2 overflow)</span>
+        </div>
+      </Sub>
+    </Section>
+  );
+}
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -510,6 +649,233 @@ export default function StyleGuidePage() {
             ))}
           </div>
         </Section>
+
+        {/* ──────────────────────────────────────────────────────────────── */}
+        {/* BUTTON                                                          */}
+        {/* ──────────────────────────────────────────────────────────────── */}
+        <Section
+          id="c-button"
+          title="Button"
+          subtitle="Six variants × five sizes with loading and disabled states"
+        >
+          <Sub title="Variants">
+            <div className="flex flex-wrap gap-3">
+              <Button variant="primary">Primary</Button>
+              <Button variant="secondary">Secondary</Button>
+              <Button variant="outline">Outline</Button>
+              <Button variant="ghost">Ghost</Button>
+              <Button variant="danger">Danger</Button>
+              <Button variant="link">Link</Button>
+            </div>
+          </Sub>
+
+          <Sub title="Sizes">
+            <div className="flex flex-wrap items-end gap-3">
+              <Button size="xs">Extra small</Button>
+              <Button size="sm">Small</Button>
+              <Button size="md">Medium</Button>
+              <Button size="lg">Large</Button>
+              <Button size="xl">Extra large</Button>
+            </div>
+          </Sub>
+
+          <Sub title="States">
+            <div className="flex flex-wrap gap-3">
+              <Button variant="primary" loading>Loading</Button>
+              <Button variant="primary" disabled>Disabled</Button>
+              <Button variant="outline" loading>Loading outline</Button>
+              <Button
+                variant="primary"
+                iconLeft={<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"/></svg>}
+              >
+                Icon left
+              </Button>
+              <Button
+                variant="outline"
+                iconRight={<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+              >
+                Icon right
+              </Button>
+            </div>
+          </Sub>
+        </Section>
+
+        {/* ──────────────────────────────────────────────────────────────── */}
+        {/* FORM INPUTS                                                     */}
+        {/* ──────────────────────────────────────────────────────────────── */}
+        <Section
+          id="c-form"
+          title="Form Inputs"
+          subtitle="Input, Select, Checkbox, Radio, Toggle — all with error and disabled states"
+        >
+          <Sub title="Text Input">
+            <div className="flex flex-wrap gap-6">
+              <Input label="Default" placeholder="Enter value…" fullWidth={false} />
+              <Input
+                label="With helper"
+                placeholder="Enter email"
+                helperText="We'll never share your email."
+                fullWidth={false}
+                prefix={<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 3.5h12v7a1 1 0 01-1 1H2a1 1 0 01-1-1v-7zm0 0l6 4.5 6-4.5" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+              />
+              <Input
+                label="Error state"
+                placeholder="Enter phone"
+                errorText="Please enter a valid phone number."
+                defaultValue="12345"
+                fullWidth={false}
+              />
+              <Input label="Disabled" placeholder="Disabled input" disabled fullWidth={false} />
+            </div>
+          </Sub>
+
+          <Sub title="Select">
+            <div className="flex flex-wrap gap-6">
+              <Select
+                label="Country"
+                placeholder="Choose a country…"
+                options={[
+                  { value: "in", label: "India" },
+                  { value: "us", label: "United States" },
+                  { value: "gb", label: "United Kingdom" },
+                ]}
+                helperText="Select the shipping destination."
+              />
+              <Select
+                label="Error state"
+                options={[{ value: "a", label: "Option A" }]}
+                errorText="This field is required."
+              />
+              <Select
+                label="Disabled"
+                options={[{ value: "a", label: "Option A" }]}
+                disabled
+              />
+            </div>
+          </Sub>
+
+          <Sub title="Checkbox">
+            <div className="flex flex-wrap gap-6">
+              <Checkbox label="Unchecked" />
+              <Checkbox label="Checked" defaultChecked />
+              <Checkbox label="With description" description="Optional helper text below." defaultChecked />
+              <Checkbox label="Disabled" disabled />
+              <Checkbox label="Indeterminate" indeterminate />
+            </div>
+          </Sub>
+
+          <Sub title="Radio">
+            <div className="flex flex-wrap gap-8">
+              <RadioGroup legend="Shipping speed" orientation="vertical">
+                <RadioItem name="ship" value="standard" label="Standard" description="5–7 business days" defaultChecked />
+                <RadioItem name="ship" value="express" label="Express" description="2–3 business days" />
+                <RadioItem name="ship" value="overnight" label="Overnight" description="Next business day" />
+              </RadioGroup>
+              <RadioGroup legend="Plan (horizontal)" orientation="horizontal">
+                <RadioItem name="plan" value="free" label="Free" />
+                <RadioItem name="plan" value="pro" label="Pro" defaultChecked />
+                <RadioItem name="plan" value="enterprise" label="Enterprise" />
+              </RadioGroup>
+            </div>
+          </Sub>
+
+          <Sub title="Toggle">
+            <div className="flex flex-wrap gap-6 items-start">
+              <Toggle label="Notifications" description="Receive email updates" size="sm" />
+              <Toggle label="Dark mode" defaultChecked />
+              <Toggle label="Large toggle" size="lg" defaultChecked />
+              <Toggle label="Disabled" disabled />
+            </div>
+          </Sub>
+        </Section>
+
+        {/* ──────────────────────────────────────────────────────────────── */}
+        {/* FEEDBACK & STATUS                                               */}
+        {/* ──────────────────────────────────────────────────────────────── */}
+        <Section
+          id="c-feedback"
+          title="Feedback & Status"
+          subtitle="Alert, Badge, Spinner, Progress, Toast"
+        >
+          <Sub title="Alert">
+            <div className="flex flex-col gap-3 max-w-xl">
+              <Alert variant="success" title="Payment successful" dismissible>
+                Your order #GK-9821 has been confirmed and will ship within 24 hours.
+              </Alert>
+              <Alert variant="warning" title="Account limit reached">
+                You've used 90% of your API quota. Upgrade your plan to avoid interruptions.
+              </Alert>
+              <Alert variant="error" title="Transaction failed" dismissible>
+                We couldn't process your payment. Please check your card details and try again.
+              </Alert>
+              <Alert variant="info">
+                A new version of the design system is available. Run{" "}
+                <code className="font-mono text-xs">npx ts-node scripts/extract-figma-tokens.ts</code> to sync.
+              </Alert>
+            </div>
+          </Sub>
+
+          <Sub title="Badge">
+            <div className="flex flex-wrap gap-3">
+              {(["primary","secondary","success","warning","error","info","neutral"] as const).map((v) => (
+                <Badge key={v} variant={v}>{v.charAt(0).toUpperCase() + v.slice(1)}</Badge>
+              ))}
+            </div>
+            <div className="mt-3 flex flex-wrap gap-3">
+              {(["primary","secondary","success","warning","error","info"] as const).map((v) => (
+                <Badge key={v} variant={v} dot>{v}</Badge>
+              ))}
+            </div>
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <Badge variant="primary" size="sm">Small</Badge>
+              <Badge variant="primary" size="md">Medium</Badge>
+              <Badge variant="primary" size="lg">Large</Badge>
+            </div>
+          </Sub>
+
+          <Sub title="Spinner">
+            <div className="flex flex-wrap items-center gap-6">
+              <Spinner size="xs" /> <span className="text-xs text-neutral-400">xs</span>
+              <Spinner size="sm" /> <span className="text-xs text-neutral-400">sm</span>
+              <Spinner size="md" /> <span className="text-xs text-neutral-400">md</span>
+              <Spinner size="lg" /> <span className="text-xs text-neutral-400">lg</span>
+              <Spinner size="xl" /> <span className="text-xs text-neutral-400">xl</span>
+              <div className="ml-4 flex items-center gap-2 rounded-lg bg-primary-500 px-3 py-1.5">
+                <Spinner size="sm" color="white" />
+                <span className="text-xs text-white">white on brand</span>
+              </div>
+            </div>
+          </Sub>
+
+          <Sub title="Progress">
+            <div className="flex flex-col gap-4 max-w-md">
+              <Progress value={72} label="Upload progress" showValue />
+              <Progress value={45} variant="success" label="Storage used" showValue />
+              <Progress value={88} variant="warning" label="CPU load" showValue />
+              <Progress value={95} variant="error" label="Memory" showValue />
+              <div className="flex gap-3">
+                <Progress value={60} size="xs" className="flex-1" />
+                <Progress value={60} size="sm" className="flex-1" />
+                <Progress value={60} size="md" className="flex-1" />
+                <Progress value={60} size="lg" className="flex-1" />
+              </div>
+            </div>
+          </Sub>
+
+          <Sub title="Toast">
+            <div className="flex flex-wrap gap-3">
+              <Toast variant="success" title="Saved!" description="Your changes have been saved." duration={0} />
+              <Toast variant="warning" title="Heads up" description="This action can't be undone." duration={0} />
+              <Toast variant="error" title="Failed" description="Something went wrong. Try again." duration={0} />
+              <Toast variant="info" title="Update available" duration={0} action={{ label: "Refresh now", onClick: () => {} }} />
+            </div>
+          </Sub>
+        </Section>
+
+        {/* ──────────────────────────────────────────────────────────────── */}
+        {/* LAYOUT & CONTAINERS                                             */}
+        {/* ──────────────────────────────────────────────────────────────── */}
+        <ComponentLayoutSection />
 
         {/* ── Footer ───────────────────────────────────────────────────── */}
         <footer className="mt-20 flex items-center justify-between border-t border-neutral-200 pt-8 text-xs text-neutral-400">
