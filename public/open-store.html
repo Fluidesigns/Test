@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="refresh" content="0;url=store-preview.html" />
+  <title>Opening Store Preview…</title>
+  <style>
+    body {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; margin: 0; background: #F5F3FF; color: #1E293B;
+    }
+    .box {
+      text-align: center; max-width: 360px; padding: 40px 32px;
+      background: #fff; border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(124,58,237,.15);
+      border: 1px solid #DDD6FE;
+    }
+    .logo { font-size: 48px; margin-bottom: 16px; }
+    h1 { font-size: 18px; font-weight: 700; margin: 0 0 8px; }
+    p  { font-size: 13px; color: #64748B; margin: 0 0 24px; }
+    a  {
+      display: inline-block; padding: 10px 24px;
+      background: #7C3AED; color: #fff; border-radius: 10px;
+      font-size: 14px; font-weight: 600; text-decoration: none;
+      transition: background .15s;
+    }
+    a:hover { background: #6D28D9; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="logo">🛍️</div>
+    <h1>Opening Store Preview…</h1>
+    <p>If it doesn't open automatically, click the button below.</p>
+    <a href="store-preview.html">Open Store Design →</a>
+  </div>
+  <script>window.location.replace("store-preview.html");</script>
+</body>
+</html>
