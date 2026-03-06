@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ShopEasy — Gokwik Design System Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+/* ── Design Tokens ─────────────────────────────────────────────────────── */
+:root {
+  /* Primary — Gokwik Indigo */
+  --primary-25:  #F5F3FF; --primary-50:  #EDE9FE; --primary-100: #DDD6FE;
+  --primary-200: #C4B5FD; --primary-300: #A78BFA; --primary-400: #8B5CF6;
+  --primary-500: #7C3AED; --primary-600: #6D28D9; --primary-700: #5B21B6;
+  --primary-800: #4C1D95; --primary-900: #3B0F7C;
+
+  /* Secondary — Gokwik Green */
+  --secondary-50:  #DCFCE7; --secondary-100: #BBF7D0;
+  --secondary-400: #22C55E; --secondary-500: #16A34A; --secondary-600: #15803D;
+
+  /* Neutral — Slate */
+  --neutral-0:   #FFFFFF; --neutral-50:  #F8FAFC; --neutral-100: #F1F5F9;
+  --neutral-200: #E2E8F0; --neutral-300: #CBD5E1; --neutral-400: #94A3B8;
+  --neutral-500: #64748B; --neutral-600: #475569; --neutral-700: #334155;
+  --neutral-800: #1E293B; --neutral-900: #0F172A;
+
+  /* Semantic */
+  --success-bg: #F0FDF4; --success-border: #86EFAC; --success-text: #166534; --success-default: #16A34A;
+  --warning-bg: #FFFBEB; --warning-border: #FDE68A; --warning-text: #92400E; --warning-default: #D97706;
+  --error-bg:   #FEF2F2; --error-border:   #FECACA; --error-text:   #991B1B; --error-default:   #DC2626;
+  --info-bg:    #EFF6FF; --info-border:    #BFDBFE; --info-text:    #1D4ED8; --info-default:    #2563EB;
+
+  /* Alias */
+  --text-primary:   #0F172A; --text-secondary: #475569;
+  --text-tertiary:  #94A3B8; --text-inverse:   #FFFFFF;
+  --border-subtle:  #F1F5F9; --border-default: #E2E8F0; --border-strong: #CBD5E1;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(15,23,42,.05);
+  --shadow-sm: 0 1px 3px 0 rgba(15,23,42,.10), 0 1px 2px -1px rgba(15,23,42,.06);
+  --shadow-md: 0 4px 6px -1px rgba(15,23,42,.10), 0 2px 4px -2px rgba(15,23,42,.06);
+  --shadow-lg: 0 10px 15px -3px rgba(15,23,42,.10), 0 4px 6px -4px rgba(15,23,42,.05);
+  --shadow-xl: 0 20px 25px -5px rgba(15,23,42,.10), 0 8px 10px -6px rgba(15,23,42,.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(15,23,42,.25);
+  --shadow-primary-sm: 0 4px 14px 0 rgba(124,58,237,.25);
+  --shadow-primary-md: 0 8px 24px 0 rgba(124,58,237,.30);
+
+  /* Border radius */
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+  --radius-xl: 16px; --radius-2xl: 20px; --radius-full: 9999px;
+
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--neutral-50); color: var(--text-primary); min-height: 100vh; }
+button { cursor: pointer; font-family: inherit; border: none; background: none; }
+input { font-family: inherit; }
+
+/* ── Utilities ─────────────────────────────────────────────────────────── */
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   COMPONENTS
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Badge ─────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 8px; border-radius: var(--radius-full);
+  font-size: 11px; font-weight: 600; border: 1px solid transparent;
+  white-space: nowrap; line-height: 1.4;
+}
+.badge.sm { padding: 1px 6px; font-size: 10px; }
+.badge.lg { padding: 4px 10px; font-size: 12px; }
+.badge .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.badge.primary   { background: var(--primary-50);  color: #5B21B6; border-color: var(--primary-200); }
+.badge.primary .dot   { background: var(--primary-500); }
+.badge.secondary { background: var(--secondary-50); color: var(--secondary-600); border-color: var(--secondary-100); }
+.badge.success   { background: var(--success-bg);  color: var(--success-text);  border-color: var(--success-border); }
+.badge.success .dot   { background: var(--success-default); }
+.badge.warning   { background: var(--warning-bg);  color: var(--warning-text);  border-color: var(--warning-border); }
+.badge.warning .dot   { background: var(--warning-default); }
+.badge.error     { background: var(--error-bg);    color: var(--error-text);    border-color: var(--error-border); }
+.badge.error .dot     { background: var(--error-default); }
+.badge.info      { background: var(--info-bg);     color: var(--info-text);     border-color: var(--info-border); }
+.badge.neutral   { background: var(--neutral-100); color: var(--neutral-700, #334155); border-color: var(--neutral-200); }
+
+/* ── Button ────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 0 16px; height: 40px; border-radius: var(--radius-lg);
+  font-size: 14px; font-weight: 500; transition: all .15s ease;
+  white-space: nowrap; border: 1px solid transparent; text-decoration: none;
+}
+.btn.xs { height: 24px; padding: 0 8px;  font-size: 11px; border-radius: var(--radius-sm); gap: 4px; }
+.btn.sm { height: 32px; padding: 0 12px; font-size: 13px; border-radius: var(--radius-md); gap: 6px; }
+.btn.lg { height: 44px; padding: 0 20px; font-size: 15px; border-radius: var(--radius-lg); }
+.btn.xl { height: 48px; padding: 0 24px; font-size: 15px; border-radius: var(--radius-xl); }
+.btn.full { width: 100%; }
+.btn:disabled { opacity: .5; cursor: not-allowed; pointer-events: none; }
+
+.btn.primary   { background: var(--primary-500); color: #fff; box-shadow: var(--shadow-primary-sm); }
+.btn.primary:hover   { background: var(--primary-600); box-shadow: var(--shadow-primary-md); }
+.btn.primary:active  { background: var(--primary-700); }
+
+.btn.secondary { background: var(--secondary-500); color: #fff; }
+.btn.secondary:hover { background: var(--secondary-600); }
+
+.btn.outline   { background: transparent; color: var(--primary-600); border-color: var(--primary-400); }
+.btn.outline:hover   { background: var(--primary-25); border-color: var(--primary-500); }
+
+.btn.ghost     { background: transparent; color: var(--neutral-700, #334155); }
+.btn.ghost:hover     { background: var(--neutral-100); }
+
+.btn.danger    { background: var(--error-default); color: #fff; }
+.btn.danger:hover    { background: #b91c1c; }
+
+.btn.link-btn  { background: transparent; color: var(--primary-500); text-decoration: underline; text-underline-offset: 3px; height: auto; padding: 0; }
+
+/* ── Input ─────────────────────────────────────────────────────────────── */
+.input-wrap { display: flex; flex-direction: column; gap: 6px; }
+.input-wrap label { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+.input-field {
+  display: flex; align-items: center; gap: 8px;
+  height: 40px; padding: 0 12px; border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border-default); background: var(--neutral-0);
+  transition: all .15s;
+}
+.input-field.sm { height: 32px; padding: 0 10px; }
+.input-field:focus-within { border-color: var(--primary-500); box-shadow: 0 0 0 3px rgba(124,58,237,.12); }
+.input-field input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font-size: 14px; color: var(--text-primary); min-width: 0;
+}
+.input-field input::placeholder { color: var(--text-tertiary); }
+.input-prefix { font-size: 13px; color: var(--text-secondary); flex-shrink: 0; }
+.helper-text { font-size: 11px; color: var(--text-secondary); }
+.error-text  { font-size: 11px; color: var(--error-text); }
+
+/* ── Progress ──────────────────────────────────────────────────────────── */
+.progress-wrap { display: flex; flex-direction: column; gap: 6px; }
+.progress-header { display: flex; justify-content: space-between; align-items: center; }
+.progress-label { font-size: 12px; color: var(--text-secondary); }
+.progress-track {
+  width: 100%; height: 8px; border-radius: var(--radius-full);
+  background: var(--neutral-200); overflow: hidden;
+}
+.progress-track.sm { height: 6px; }
+.progress-fill {
+  height: 100%; border-radius: var(--radius-full);
+  transition: width .5s ease;
+}
+.progress-fill.primary   { background: var(--primary-500); }
+.progress-fill.success   { background: var(--success-default); }
+.progress-fill.warning   { background: var(--warning-default); }
+
+/* ── Alert ─────────────────────────────────────────────────────────────── */
+.alert {
+  display: flex; gap: 10px; padding: 12px 14px; border-radius: var(--radius-xl);
+  border: 1px solid; font-size: 13px; line-height: 1.5;
+}
+.alert-icon { flex-shrink: 0; margin-top: 1px; font-size: 15px; }
+.alert-body { flex: 1; }
+.alert.success { background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
+.alert.warning { background: var(--warning-bg); border-color: var(--warning-border); color: var(--warning-text); }
+.alert.error   { background: var(--error-bg);   border-color: var(--error-border);   color: var(--error-text); }
+.alert.info    { background: var(--info-bg);     border-color: var(--info-border);    color: var(--info-text); }
+.alert-dismiss { flex-shrink: 0; opacity: .6; font-size: 16px; cursor: pointer; line-height: 1; }
+.alert-dismiss:hover { opacity: 1; }
+
+/* ── Card ──────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--neutral-0); border-radius: var(--radius-2xl);
+  border: 1px solid var(--border-default); box-shadow: var(--shadow-xs);
+  overflow: hidden;
+}
+.card.elevated { box-shadow: var(--shadow-md); border-color: var(--border-subtle); }
+.card.filled   { background: var(--neutral-100); border-color: var(--border-subtle); }
+.card-pad { padding: 16px 20px; }
+.card-pad.lg { padding: 20px 24px; }
+.card-header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  padding-bottom: 14px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 14px;
+}
+.card-title { font-size: 15px; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
+.card-subtitle { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.card-footer {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-subtle);
+}
+
+/* ── Avatar ────────────────────────────────────────────────────────────── */
+.avatar {
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; font-weight: 700; flex-shrink: 0; select: none;
+}
+.avatar.rounded { border-radius: var(--radius-xl); }
+.avatar.sm  { width: 32px;  height: 32px;  font-size: 11px; }
+.avatar.md  { width: 40px;  height: 40px;  font-size: 13px; }
+.avatar.lg  { width: 48px;  height: 48px;  font-size: 15px; }
+.avatar.primary   { background: var(--primary-100);  color: #5B21B6; }
+.avatar.secondary { background: var(--secondary-50); color: var(--secondary-600); }
+.avatar.success   { background: var(--success-bg);   color: var(--success-text); }
+.avatar.warning   { background: var(--warning-bg);   color: var(--warning-text); }
+.avatar.error     { background: var(--error-bg);     color: var(--error-text); }
+.avatar.info      { background: var(--info-bg);      color: var(--info-text); }
+.avatar.neutral   { background: var(--neutral-200);  color: var(--neutral-600, #475569); }
+
+/* ── Toast ─────────────────────────────────────────────────────────────── */
+.toast {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px; border-radius: var(--radius-xl);
+  border: 1px solid; background: #fff; box-shadow: var(--shadow-lg);
+  min-width: 260px; max-width: 360px;
+  animation: slideUp .3s ease;
+}
+.toast.warning { border-color: var(--warning-border); }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.toast-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.toast-body { flex: 1; }
+.toast-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.toast-desc  { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.toast-action { font-size: 11px; font-weight: 600; color: var(--primary-600); text-decoration: underline; cursor: pointer; margin-top: 4px; display: inline-block; }
+.toast-close { flex-shrink: 0; font-size: 14px; color: var(--text-tertiary); cursor: pointer; opacity: .7; }
+.toast-close:hover { opacity: 1; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   LAYOUT
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Navbar */
+.navbar {
+  position: sticky; top: 0; z-index: 40;
+  background: #fff; border-bottom: 1px solid var(--border-default);
+  box-shadow: var(--shadow-xs);
+}
+.navbar-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 24px;
+}
+.logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.logo-mark {
+  width: 32px; height: 32px; border-radius: var(--radius-md);
+  background: var(--primary-500); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 900;
+}
+.logo-name { font-size: 15px; font-weight: 800; color: var(--text-primary); }
+.nav-links { display: flex; gap: 2px; margin-left: 12px; }
+.nav-search { flex: 1; max-width: 320px; }
+.nav-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.cart-btn-wrap { position: relative; }
+.cart-badge-pos { position: absolute; top: -6px; right: -6px; pointer-events: none; }
+
+/* Promo bar */
+.promo-bar {
+  background: var(--primary-500); color: #fff;
+  text-align: center; padding: 8px 16px; font-size: 12px; font-weight: 500;
+}
+.promo-bar strong { font-weight: 900; }
+
+/* Main */
+.main { max-width: 1200px; margin: 0 auto; padding: 28px 24px; }
+
+/* Hero */
+.hero {
+  border-radius: var(--radius-2xl); overflow: hidden; margin-bottom: 28px;
+  background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-500) 60%, var(--secondary-500) 100%);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 40px 48px; gap: 24px;
+}
+.hero-text {}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+  border-radius: var(--radius-full); padding: 4px 12px;
+  font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 14px;
+}
+.hero h1 { font-size: 36px; font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 10px; }
+.hero p { font-size: 14px; color: rgba(255,255,255,.8); max-width: 300px; margin-bottom: 22px; }
+.hero-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+.hero-ctas .btn.secondary { box-shadow: 0 4px 14px rgba(22,163,74,.35); }
+.hero-ctas .btn-glass {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 44px; padding: 0 20px; border-radius: var(--radius-lg);
+  background: rgba(255,255,255,.15); color: #fff;
+  border: 1px solid rgba(255,255,255,.3); font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: all .15s;
+}
+.hero-ctas .btn-glass:hover { background: rgba(255,255,255,.25); }
+.hero-emojis { display: flex; align-items: flex-end; gap: 12px; flex-shrink: 0; }
+.hero-emoji-chip {
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-xl); background: rgba(255,255,255,.2);
+  backdrop-filter: blur(8px); font-size: 36px;
+  box-shadow: 0 8px 24px rgba(124,58,237,.3);
+}
+.hero-emoji-chip.sm { width: 64px; height: 64px; }
+.hero-emoji-chip.lg { width: 80px; height: 80px; margin-bottom: 8px; font-size: 44px; }
+
+/* Content grid */
+.content-grid { display: flex; gap: 24px; align-items: flex-start; }
+.product-col { flex: 1; min-width: 0; }
+.cart-col { width: 320px; flex-shrink: 0; position: sticky; top: 72px; }
+
+/* Products header */
+.products-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.products-title { font-size: 17px; font-weight: 700; color: var(--text-primary); }
+.products-count { font-size: 13px; color: var(--text-tertiary); font-weight: 400; }
+.sort-btns { display: flex; gap: 6px; }
+
+/* Product grid */
+.product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 900px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* Product card */
+.product-card { display: flex; flex-direction: column; cursor: pointer; transition: box-shadow .2s; }
+.product-card:hover { box-shadow: var(--shadow-md); }
+.product-img {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  height: 140px; border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  font-size: 52px; transition: transform .2s;
+}
+.product-card:hover .product-img { transform: scale(1.02); }
+.product-img-badge { position: absolute; top: 10px; left: 10px; }
+.product-cart-badge { position: absolute; top: 10px; right: 10px; }
+.product-body { flex: 1; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.product-name { font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
+.product-rating { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+.product-rating:hover .star-tooltip { display: block; }
+.stars { display: flex; gap: 1px; }
+.star { font-size: 11px; }
+.star.filled { color: #F59E0B; }
+.star.empty  { color: var(--neutral-300); }
+.rating-count { font-size: 11px; color: var(--text-secondary); }
+.product-price { display: flex; align-items: baseline; gap: 6px; margin-top: auto; }
+.price-current { font-size: 18px; font-weight: 900; color: var(--primary-600); }
+.price-original { font-size: 12px; color: var(--text-tertiary); text-decoration: line-through; }
+
+/* Cart */
+.cart-empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 40px 0; text-align: center; }
+.cart-empty .emoji { font-size: 48px; }
+.cart-items { display: flex; flex-direction: column; gap: 12px; }
+.cart-item { display: flex; align-items: center; gap: 10px; }
+.cart-item-info { flex: 1; min-width: 0; }
+.cart-item-name  { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+.cart-item-price { font-size: 11px; color: var(--text-secondary); margin-top: 1px; }
+.cart-item-right { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.cart-item-total { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+.cart-remove { opacity: .5; font-size: 13px; cursor: pointer; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-sm); transition: all .15s; }
+.cart-remove:hover { opacity: 1; background: var(--error-bg); color: var(--error-default); }
+.cart-divider { height: 1px; background: var(--border-subtle); margin: 8px 0; }
+.price-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-secondary); }
+.price-row.total { font-size: 14px; font-weight: 700; color: var(--text-primary); padding-top: 8px; border-top: 1px solid var(--border-subtle); margin-top: 4px; }
+.promo-row { display: flex; gap: 6px; }
+.trust-row { display: flex; justify-content: center; gap: 20px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-subtle); }
+.trust-item { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.trust-icon { font-size: 18px; }
+.trust-label { font-size: 10px; color: var(--text-tertiary); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MODAL (Exit Intent)
+   ══════════════════════════════════════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+  background: rgba(15,23,42,.55); backdrop-filter: blur(3px);
+  animation: fadeIn .2s ease;
+}
+.modal-overlay.hidden { display: none; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal-panel {
+  position: relative; background: #fff; border-radius: 24px;
+  box-shadow: var(--shadow-2xl); width: 100%; max-width: 440px;
+  max-height: calc(100vh - 32px); overflow-y: auto;
+  animation: modalIn .25s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(.92) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-close {
+  position: absolute; top: 14px; right: 14px; z-index: 1;
+  width: 30px; height: 30px; border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: var(--text-tertiary); background: var(--neutral-100);
+  cursor: pointer; transition: all .15s;
+}
+.modal-close:hover { background: var(--neutral-200); color: var(--text-primary); }
+
+.modal-body { padding: 36px 28px 28px; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+
+/* Illustration */
+.exit-illustration { position: relative; display: inline-flex; }
+.exit-bubble {
+  width: 88px; height: 88px; border-radius: 50%;
+  background: var(--primary-50); display: flex; align-items: center; justify-content: center;
+  font-size: 42px; box-shadow: var(--shadow-primary-sm);
+}
+.exit-count-badge {
+  position: absolute; top: -4px; right: -4px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--error-default); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 900; box-shadow: var(--shadow-sm);
+}
+
+/* Countdown ring */
+.countdown-ring {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  font-size: 12px; font-weight: 600; color: var(--error-text);
+  background: var(--error-bg); border: 1px solid var(--error-border);
+  border-radius: var(--radius-full); padding: 4px 12px;
+}
+.ring-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--error-default); animation: pulse 1s ease infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .6; transform: scale(.8); } }
+
+/* Divider */
+.divider { display: flex; align-items: center; gap: 10px; width: 100%; }
+.divider-line { flex: 1; height: 1px; background: var(--border-default); }
+.divider-text { font-size: 12px; color: var(--text-tertiary); }
+
+/* Trust badges row */
+.trust-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+
+/* ── Toast fixed ──────────────────────────────────────────────────────── */
+.toast-wrap { position: fixed; bottom: 24px; right: 24px; z-index: 200; }
+.toast-wrap.hidden { display: none; }
+
+/* ── Trigger hint ─────────────────────────────────────────────────────── */
+.demo-trigger {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 90;
+  display: flex; align-items: center; gap: 8px;
+  background: var(--neutral-900); color: #fff; padding: 10px 20px; border-radius: var(--radius-full);
+  font-size: 12px; font-weight: 600; box-shadow: var(--shadow-lg); cursor: pointer;
+  animation: bounce 2s ease infinite;
+}
+@keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-5px); } }
+.demo-trigger.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ── Navbar ──────────────────────────────────────────────────────────── -->
+<header class="navbar">
+  <div class="navbar-inner">
+    <div class="logo">
+      <div class="logo-mark">SE</div>
+      <span class="logo-name">ShopEasy</span>
+      <span class="badge primary sm">SALE</span>
+    </div>
+
+    <nav class="nav-links">
+      <button class="btn ghost sm">Home</button>
+      <button class="btn ghost sm">Products</button>
+      <button class="btn ghost sm">Deals</button>
+      <button class="btn ghost sm">About</button>
+    </nav>
+
+    <div class="nav-search">
+      <div class="input-field sm">
+        <span class="input-prefix">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#94A3B8" stroke-width="1.25"/><path d="M9.5 9.5L12.5 12.5" stroke="#94A3B8" stroke-width="1.25" stroke-linecap="round"/></svg>
+        </span>
+        <input type="text" placeholder="Search products…" />
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="btn ghost sm" title="Wishlist" style="width:32px;padding:0">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 15.5S2 11 2 5.8A3.8 3.8 0 019 3.2a3.8 3.8 0 017 2.6C16 11 9 15.5 9 15.5z" stroke="#475569" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="cart-btn-wrap">
+        <button class="btn outline sm" id="navCartBtn" style="width:32px;padding:0" title="Cart">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 2h2l2.6 8.6a1 1 0 00.96.7h6.88a1 1 0 00.96-.73L16 6H5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="15" r="1" fill="currentColor"/><circle cx="14" cy="15" r="1" fill="currentColor"/></svg>
+        </button>
+        <span class="cart-badge-pos" id="navCartBadge" style="display:none">
+          <span class="badge error sm" id="navCartCount">0</span>
+        </span>
+      </div>
+      <div class="avatar neutral sm">?</div>
+    </div>
+  </div>
+</header>
+
+<!-- ── Promo bar ───────────────────────────────────────────────────────── -->
+<div class="promo-bar">
+  🚚 Free shipping on orders above ₹999 &nbsp;·&nbsp;
+  Use code <strong>FIRST10</strong> for 10% off your first order
+</div>
+
+<!-- ── Main ───────────────────────────────────────────────────────────── -->
+<main class="main">
+
+  <!-- Alert -->
+  <div class="alert info" style="margin-bottom:20px" id="infoAlert">
+    <span class="alert-icon">ℹ️</span>
+    <div class="alert-body">
+      <strong>New arrivals every Friday!</strong> Sign in to get early access + exclusive member pricing.
+      <a style="text-decoration:underline;cursor:pointer;font-weight:600;color:var(--info-text)"> Create account →</a>
+    </div>
+    <span class="alert-dismiss" onclick="this.closest('.alert').remove()">×</span>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-text">
+      <div class="hero-eyebrow">
+        <span style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.7);display:inline-block"></span>
+        Summer Sale — Up to 60% OFF
+      </div>
+      <h1>Shop Smart,<br>Save More.</h1>
+      <p>Premium products at unbeatable prices. Trusted by 10 lakh+ shoppers across India.</p>
+      <div class="hero-ctas">
+        <button class="btn secondary lg">Shop Now</button>
+        <button class="btn-glass">View Deals</button>
+      </div>
+    </div>
+    <div class="hero-emojis">
+      <div class="hero-emoji-chip sm">🎧</div>
+      <div class="hero-emoji-chip lg">⌚</div>
+      <div class="hero-emoji-chip sm">👟</div>
+    </div>
+  </div>
+
+  <!-- Content grid -->
+  <div class="content-grid">
+
+    <!-- Products -->
+    <div class="product-col">
+      <div class="products-header">
+        <div>
+          <span class="products-title">Featured Products</span>
+          <span class="products-count"> (6)</span>
+        </div>
+        <div class="sort-btns">
+          <button class="btn ghost xs">Newest</button>
+          <button class="btn ghost xs">Price ↑</button>
+          <button class="btn outline xs">Popular</button>
+        </div>
+      </div>
+
+      <div class="product-grid" id="productGrid">
+        <!-- Products injected by JS -->
+      </div>
+    </div>
+
+    <!-- Cart -->
+    <aside class="cart-col">
+      <div class="card elevated card-pad">
+
+        <!-- Cart header -->
+        <div class="card-header">
+          <div>
+            <div class="card-title">Your Cart</div>
+          </div>
+          <span id="cartHeaderBadge" class="badge neutral">Empty</span>
+        </div>
+
+        <!-- Cart body -->
+        <div id="cartBody">
+          <div class="cart-empty">
+            <div class="emoji">🛒</div>
+            <p style="font-size:13px;color:var(--text-secondary)">Your cart is empty</p>
+            <p style="font-size:11px;color:var(--text-tertiary)">Add products to get started</p>
+          </div>
+        </div>
+
+        <!-- Cart footer -->
+        <div class="card-footer" style="flex-direction:column;gap:8px">
+          <button class="btn primary lg full" id="checkoutBtn" disabled onclick="handleCheckout()">
+            Proceed to Checkout
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="btn link-btn sm full" id="guestBtn" disabled>Or checkout as guest →</button>
+
+          <div class="trust-row">
+            <div class="trust-item"><div class="trust-icon">🔒</div><div class="trust-label">Secure</div></div>
+            <div class="trust-item"><div class="trust-icon">↩️</div><div class="trust-label">7-day returns</div></div>
+            <div class="trust-item"><div class="trust-icon">⚡</div><div class="trust-label">Fast checkout</div></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div><!-- /content-grid -->
+</main>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     EXIT-INTENT MODAL
+     ══════════════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay hidden" id="exitModal" onclick="handleBackdropClick(event)">
+  <div class="modal-panel">
+    <button class="modal-close" onclick="closeExitModal()" title="Close">×</button>
+
+    <div class="modal-body">
+
+      <!-- Illustration -->
+      <div class="exit-illustration">
+        <div class="exit-bubble">🛍️</div>
+        <div class="exit-count-badge" id="exitCountBadge">0</div>
+      </div>
+
+      <!-- Countdown -->
+      <div class="countdown-ring" id="countdownRing">
+        <div class="ring-dot"></div>
+        <span id="countdownText">Offer expires in 10:00</span>
+      </div>
+
+      <!-- Headline -->
+      <div>
+        <h2 style="font-size:22px;font-weight:900;color:var(--text-primary);line-height:1.25;margin-bottom:8px">
+          Wait! Don't leave yet 👋
+        </h2>
+        <p id="exitSubtext" style="font-size:14px;color:var(--text-secondary);line-height:1.5"></p>
+      </div>
+
+      <!-- Discount alert -->
+      <div class="alert success" style="width:100%;text-align:left">
+        <span class="alert-icon">🎁</span>
+        <div class="alert-body" style="font-size:13px">
+          Use code
+          <strong style="font-weight:900;letter-spacing:.05em;background:var(--success-bg);color:var(--success-text);padding:2px 6px;border-radius:4px;font-family:monospace;font-size:14px">STAY10</strong>
+          for an extra <strong>10% off</strong> your order!
+        </div>
+      </div>
+
+      <!-- OTP form (step 1) -->
+      <div id="otpStep1" style="width:100%;display:flex;flex-direction:column;gap:10px">
+        <div class="input-wrap" style="width:100%">
+          <label>Checkout in 30 seconds with your phone</label>
+          <div class="input-field">
+            <span class="input-prefix" style="font-weight:600;color:var(--text-secondary)">+91</span>
+            <input type="tel" id="phoneInput" placeholder="Enter mobile number" maxlength="10"
+              oninput="updateOtpBtn()" />
+          </div>
+          <span class="helper-text">No account needed · OTP sent instantly · Free</span>
+        </div>
+        <button class="btn primary lg full" id="otpBtn" disabled onclick="sendOtp()">
+          Send OTP &amp; Complete Purchase
+        </button>
+      </div>
+
+      <!-- OTP sent (step 2) -->
+      <div id="otpStep2" style="width:100%;display:none">
+        <div class="alert success" style="text-align:left">
+          <span class="alert-icon">✅</span>
+          <div class="alert-body">
+            <strong>OTP sent!</strong> Check your SMS to complete checkout instantly.
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider" style="width:100%">
+        <div class="divider-line"></div>
+        <span class="divider-text">or</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- Continue browsing -->
+      <button class="btn outline md full" onclick="closeExitModal()">
+        Continue browsing
+      </button>
+
+      <!-- Fine print -->
+      <p style="font-size:11px;color:var(--text-tertiary);line-height:1.6">
+        No account needed &nbsp;·&nbsp; No spam &nbsp;·&nbsp; Cart saved for 30 mins
+      </p>
+
+      <!-- Trust badges -->
+      <div class="trust-badges">
+        <span class="badge neutral sm">🔒 Secure checkout</span>
+        <span class="badge neutral sm">✓ No spam</span>
+        <span class="badge neutral sm">⚡ 30-sec checkout</span>
+        <span class="badge neutral sm">↩️ Easy returns</span>
+      </div>
+
+    </div><!-- /modal-body -->
+  </div><!-- /modal-panel -->
+</div>
+
+<!-- ── Toast ───────────────────────────────────────────────────────────── -->
+<div class="toast-wrap hidden" id="toastWrap">
+  <div class="toast warning">
+    <span class="toast-icon">⚠️</span>
+    <div class="toast-body">
+      <div class="toast-title">Items reserved for 30 mins</div>
+      <div class="toast-desc">Complete your purchase before they sell out!</div>
+      <span class="toast-action" onclick="dismissToast()">Go to cart</span>
+    </div>
+    <span class="toast-close" onclick="dismissToast()">×</span>
+  </div>
+</div>
+
+<!-- ── Demo trigger ────────────────────────────────────────────────────── -->
+<div class="demo-trigger" id="demoTrigger" onclick="openExitModal()">
+  🖱️ Click to preview exit popup
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ══════════════════════════════════════════════════════════════════════ -->
+<script>
+// ── Product data ────────────────────────────────────────────────────────
+const PRODUCTS = [
+  { id:1, name:"Premium Wireless Headphones", emoji:"🎧", price:1299, original:1999, rating:4.8, reviews:2341, stock:"in",   color:"#EDE9FE", avatarClass:"primary",   initials:"WH" },
+  { id:2, name:"Smart Fitness Band",          emoji:"⌚", price:799,  original:1199, rating:4.5, reviews:1872, stock:"low",  color:"#DCFCE7", avatarClass:"secondary", initials:"FB" },
+  { id:3, name:"Portable Charger 20000mAh",   emoji:"🔋", price:549,  original:899,  rating:4.6, reviews:4120, stock:"in",   color:"#EFF6FF", avatarClass:"info",      initials:"PC" },
+  { id:4, name:"Running Shoes (Men's)",        emoji:"👟", price:1849, original:2499, rating:4.7, reviews:987,  stock:"few",  color:"#FFFBEB", avatarClass:"warning",   initials:"RS" },
+  { id:5, name:"Minimalist Backpack",          emoji:"🎒", price:999,  original:1499, rating:4.4, reviews:653,  stock:"in",   color:"#F0FDF4", avatarClass:"success",   initials:"MB" },
+  { id:6, name:"Bamboo Desk Organiser",        emoji:"🗂️", price:399,  original:599,  rating:4.3, reviews:421,  stock:"in",   color:"#F8FAFC", avatarClass:"neutral",   initials:"DO" },
+];
+
+// ── Cart state ──────────────────────────────────────────────────────────
+let cart = {};   // { productId: qty }
+let exitTriggered = false;
+let countdownInterval = null;
+let countdownSecs = 600;
+
+// ── Build products ──────────────────────────────────────────────────────
+function stockBadge(stock) {
+  if (stock === "in")  return `<span class="badge success sm"><span class="dot"></span>In Stock</span>`;
+  if (stock === "low") return `<span class="badge warning sm"><span class="dot"></span>Low Stock</span>`;
+  return                      `<span class="badge error sm"><span class="dot"></span>Last 2 Left</span>`;
+}
+
+function stars(rating) {
+  let html = '<span class="stars">';
+  for (let i = 1; i <= 5; i++) {
+    html += `<span class="star ${i <= Math.round(rating) ? 'filled' : 'empty'}">${i <= Math.round(rating) ? '★' : '☆'}</span>`;
+  }
+  return html + '</span>';
+}
+
+function discount(p, o) { return Math.round((1 - p / o) * 100); }
+
+function renderProducts() {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = PRODUCTS.map(p => {
+    const inCart = cart[p.id] || 0;
+    return `
+      <div class="card product-card">
+        <div class="product-img" style="background:${p.color};border-radius:20px 20px 0 0">
+          <span role="img" aria-label="${p.name}">${p.emoji}</span>
+          <div class="product-img-badge">${stockBadge(p.stock)}</div>
+          ${inCart ? `<div class="product-cart-badge"><span class="badge primary sm">In cart ×${inCart}</span></div>` : ''}
+        </div>
+        <div class="product-body">
+          <div class="product-name line-clamp-2">${p.name}</div>
+          <div class="product-rating" title="${p.rating} · ${p.reviews.toLocaleString()} verified reviews">
+            ${stars(p.rating)}
+            <span class="rating-count">${p.rating} (${p.reviews.toLocaleString()})</span>
+          </div>
+          <div class="product-price" style="margin-top:auto">
+            <span class="price-current">₹${p.price.toLocaleString()}</span>
+            <span class="price-original">₹${p.original.toLocaleString()}</span>
+            <span class="badge success sm">${discount(p.price, p.original)}% off</span>
+          </div>
+          <button class="btn ${inCart ? 'outline' : 'primary'} sm full" onclick="addToCart(${p.id})" style="margin-top:8px">
+            ${inCart ? `➕ Add another (×${inCart+1})` : '🛒 Add to Cart'}
+          </button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── Cart ────────────────────────────────────────────────────────────────
+const FREE_SHIP = 999;
+
+function addToCart(id) {
+  cart[id] = (cart[id] || 0) + 1;
+  renderProducts();
+  renderCart();
+  updateNavBadge();
+}
+
+function removeFromCart(id) {
+  delete cart[id];
+  renderProducts();
+  renderCart();
+  updateNavBadge();
+}
+
+function cartItems() {
+  return PRODUCTS.filter(p => cart[p.id]).map(p => ({ product: p, qty: cart[p.id] }));
+}
+
+function subtotal() {
+  return cartItems().reduce((s, i) => s + i.product.price * i.qty, 0);
+}
+
+function cartCount() {
+  return Object.values(cart).reduce((s, v) => s + v, 0);
+}
+
+function updateNavBadge() {
+  const cnt = cartCount();
+  const badge = document.getElementById('navCartBadge');
+  const badgeText = document.getElementById('navCartCount');
+  if (cnt > 0) { badge.style.display = 'block'; badgeText.textContent = cnt; }
+  else { badge.style.display = 'none'; }
+}
+
+function renderCart() {
+  const body = document.getElementById('cartBody');
+  const headerBadge = document.getElementById('cartHeaderBadge');
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  const guestBtn = document.getElementById('guestBtn');
+  const items = cartItems();
+  const cnt = cartCount();
+  const sub = subtotal();
+
+  if (cnt === 0) {
+    headerBadge.className = 'badge neutral';
+    headerBadge.textContent = 'Empty';
+    checkoutBtn.disabled = true;
+    guestBtn.disabled = true;
+    body.innerHTML = `<div class="cart-empty">
+      <div class="emoji">🛒</div>
+      <p style="font-size:13px;color:var(--text-secondary)">Your cart is empty</p>
+      <p style="font-size:11px;color:var(--text-tertiary)">Add products to get started</p>
+    </div>`;
+    return;
+  }
+
+  headerBadge.className = 'badge primary';
+  headerBadge.textContent = `${cnt} item${cnt > 1 ? 's' : ''}`;
+  checkoutBtn.disabled = false;
+  guestBtn.disabled = false;
+
+  const shipping = sub >= FREE_SHIP ? 0 : 49;
+  const gst = Math.round(sub * 0.18);
+  const total = sub + shipping + gst;
+  const pct = Math.min(100, Math.round((sub / FREE_SHIP) * 100));
+
+  const freeShipHtml = sub >= FREE_SHIP
+    ? `<div class="alert success" style="padding:8px 12px;font-size:12px;border-radius:var(--radius-lg)">
+         <span>🎉</span><div class="alert-body">You qualify for <strong>free shipping!</strong></div>
+       </div>`
+    : `<div class="progress-wrap">
+         <div class="progress-label">Add ₹${(FREE_SHIP - sub).toLocaleString()} more for free shipping</div>
+         <div class="progress-track sm"><div class="progress-fill primary" style="width:${pct}%"></div></div>
+       </div>`;
+
+  body.innerHTML = `
+    <div class="cart-items">
+      ${items.map(({ product: p, qty }) => `
+        <div class="cart-item">
+          <div class="avatar ${p.avatarClass} md rounded">${p.initials}</div>
+          <div class="cart-item-info">
+            <div class="cart-item-name truncate">${p.name}</div>
+            <div class="cart-item-price">₹${p.price.toLocaleString()} × ${qty}</div>
+          </div>
+          <div class="cart-item-right">
+            <span class="cart-item-total">₹${(p.price * qty).toLocaleString()}</span>
+            <button class="cart-remove" onclick="removeFromCart(${p.id})" title="Remove">×</button>
+          </div>
+        </div>`).join('')}
+    </div>
+
+    <div class="cart-divider"></div>
+    ${freeShipHtml}
+
+    <div style="margin-top:12px">
+      <div class="promo-row">
+        <div class="input-field sm" style="flex:1"><input type="text" id="promoInput" placeholder="Promo code (try STAY10)" /></div>
+        <button class="btn outline sm" onclick="applyPromo()" style="flex-shrink:0">Apply</button>
+      </div>
+      <div id="promoMsg" style="font-size:11px;margin-top:4px;color:var(--success-text);display:none">✓ 10% discount applied!</div>
+    </div>
+
+    <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+      <div class="price-row"><span>Subtotal</span><span>₹${sub.toLocaleString()}</span></div>
+      <div class="price-row"><span>Shipping</span><span>${sub >= FREE_SHIP ? '<span style="color:var(--success-text);font-weight:600">FREE</span>' : '₹49'}</span></div>
+      <div class="price-row"><span>GST (18%)</span><span>₹${gst.toLocaleString()}</span></div>
+      <div class="price-row total"><span>Total</span><span>₹${total.toLocaleString()}</span></div>
+    </div>`;
+}
+
+function applyPromo() {
+  const val = (document.getElementById('promoInput')?.value || '').trim().toUpperCase();
+  const msg = document.getElementById('promoMsg');
+  if (msg && (val === 'STAY10' || val === 'FIRST10')) {
+    msg.style.display = 'block';
+  } else if (msg) {
+    msg.style.display = 'none';
+    msg.style.color = 'var(--error-text)';
+    msg.textContent = '✗ Invalid code';
+    msg.style.display = 'block';
+    msg.textContent = '✗ Invalid code. Try STAY10.';
+  }
+}
+
+// ── Checkout ────────────────────────────────────────────────────────────
+function handleCheckout() {
+  if (cartCount() === 0) return;
+  // Simulate — open exit modal as demo
+  exitTriggered = false;
+  openExitModal();
+}
+
+// ── Exit-intent ─────────────────────────────────────────────────────────
+function openExitModal() {
+  const cnt = cartCount();
+  const sub = subtotal();
+
+  // Update modal content
+  document.getElementById('exitCountBadge').textContent = cnt > 0 ? cnt : '!';
+  document.getElementById('exitSubtext').innerHTML = cnt > 0
+    ? `You have <strong style="color:var(--text-primary)">${cnt} item${cnt>1?'s':''}</strong> worth <strong style="color:var(--primary-600)">₹${sub.toLocaleString()}</strong> waiting in your cart.`
+    : `Don't miss out on our sale prices — grab your items before they sell out!`;
+
+  // Show modal
+  document.getElementById('exitModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+
+  // Hide demo trigger
+  document.getElementById('demoTrigger').classList.add('hidden');
+
+  // Start countdown
+  countdownSecs = 600;
+  clearInterval(countdownInterval);
+  countdownInterval = setInterval(() => {
+    countdownSecs--;
+    if (countdownSecs <= 0) { clearInterval(countdownInterval); countdownSecs = 0; }
+    const m = Math.floor(countdownSecs / 60);
+    const s = countdownSecs % 60;
+    document.getElementById('countdownText').textContent = `Offer expires in ${m}:${String(s).padStart(2,'0')}`;
+  }, 1000);
+}
+
+function closeExitModal() {
+  document.getElementById('exitModal').classList.add('hidden');
+  document.body.style.overflow = '';
+  clearInterval(countdownInterval);
+  // Show toast
+  document.getElementById('toastWrap').classList.remove('hidden');
+  setTimeout(dismissToast, 6000);
+}
+
+function handleBackdropClick(e) {
+  if (e.target === document.getElementById('exitModal')) closeExitModal();
+}
+
+// ── OTP ─────────────────────────────────────────────────────────────────
+function updateOtpBtn() {
+  const phone = document.getElementById('phoneInput').value.replace(/\D/g,'');
+  document.getElementById('otpBtn').disabled = phone.length < 10;
+}
+
+function sendOtp() {
+  const btn = document.getElementById('otpBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite"></span> Sending OTP…';
+  if (!document.getElementById('spinStyle')) {
+    const s = document.createElement('style');
+    s.id = 'spinStyle';
+    s.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+    document.head.appendChild(s);
+  }
+  setTimeout(() => {
+    document.getElementById('otpStep1').style.display = 'none';
+    document.getElementById('otpStep2').style.display = 'block';
+  }, 1800);
+}
+
+// ── Toast ────────────────────────────────────────────────────────────────
+function dismissToast() {
+  document.getElementById('toastWrap').classList.add('hidden');
+}
+
+// ── Native exit intent (real mouseleave) ─────────────────────────────────
+document.addEventListener('mouseleave', (e) => {
+  if (e.clientY <= 0 && !exitTriggered && cartCount() > 0) {
+    exitTriggered = true;
+    openExitModal();
+  }
+});
+
+// Keyboard: Escape
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !document.getElementById('exitModal').classList.contains('hidden')) {
+    closeExitModal();
+  }
+});
+
+// ── Init ─────────────────────────────────────────────────────────────────
+renderProducts();
+renderCart();
+</script>
+</body>
+</html>
