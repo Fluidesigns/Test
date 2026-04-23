@@ -4,17 +4,137 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
+/* =============================================================================
+   SEMANTIC THEME TOKENS
+   Defined as CSS variables so light/dark + density switch without re-rendering.
+   Consumed from tailwind via `bg-app`, `text-muted`, etc. (see tailwind.config)
+   ========================================================================== */
+
 :root {
   --font-sans:    'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
+
+  /* ── LIGHT THEME ─────────────────────────────────────────── */
+  --app-bg:            #F1F5F9;
+  --app-surface:       #FFFFFF;
+  --app-surface-2:     #F8FAFC;
+  --app-surface-hover: #F1F5F9;
+  --app-sidebar:       #0B1220;
+  --app-sidebar-hover: #1E293B;
+  --app-sidebar-active:#1F2A44;
+
+  --app-text:          #0F172A;
+  --app-text-muted:    #475569;
+  --app-text-subtle:   #94A3B8;
+  --app-text-inverse:  #FFFFFF;
+
+  --app-border:        #E2E8F0;
+  --app-border-strong: #CBD5E1;
+  --app-divider:       #EEF2F7;
+
+  --app-accent:        #2563EB;
+  --app-accent-soft:   #DBEAFE;
+  --app-accent-fg:     #FFFFFF;
+
+  --app-success:       #16A34A;
+  --app-warning:       #D97706;
+  --app-danger:        #DC2626;
+
+  --brand-teal:        #2DD4BF;
+
+  /* ── CHART PALETTE (blue family + accents) ──────────────── */
+  --chart-1: #0B1220;  /* deep navy */
+  --chart-2: #1E3A8A;  /* indigo-900 */
+  --chart-3: #2563EB;  /* blue-600  */
+  --chart-4: #60A5FA;  /* blue-400  */
+  --chart-5: #93C5FD;  /* blue-300  */
+  --chart-6: #2DD4BF;  /* teal accent */
+  --chart-grid: #E2E8F0;
+  --chart-axis: #94A3B8;
+
+  /* ── DENSITY SCALE (default: balanced) ──────────────────── */
+  --d-card-pad-y:    1.25rem;
+  --d-card-pad-x:    1.25rem;
+  --d-card-gap:      1rem;
+  --d-section-gap:   1.25rem;
+  --d-row-h:         3rem;
+  --d-chart-h:       14rem;
+  --d-radius:        0.875rem;
+}
+
+[data-density="airy"] {
+  --d-card-pad-y:    1.75rem;
+  --d-card-pad-x:    1.75rem;
+  --d-card-gap:      1.5rem;
+  --d-section-gap:   1.75rem;
+  --d-row-h:         3.5rem;
+  --d-chart-h:       16rem;
+  --d-radius:        1.125rem;
+}
+
+[data-density="dense"] {
+  --d-card-pad-y:    0.75rem;
+  --d-card-pad-x:    0.875rem;
+  --d-card-gap:      0.625rem;
+  --d-section-gap:   0.75rem;
+  --d-row-h:         2.25rem;
+  --d-chart-h:       11rem;
+  --d-radius:        0.625rem;
+}
+
+[data-theme="dark"] {
+  --app-bg:            #070B17;
+  --app-surface:       #0F172A;
+  --app-surface-2:     #131C31;
+  --app-surface-hover: #1B2741;
+  --app-sidebar:       #060A14;
+  --app-sidebar-hover: #131C31;
+  --app-sidebar-active:#1B2741;
+
+  --app-text:          #F1F5F9;
+  --app-text-muted:    #94A3B8;
+  --app-text-subtle:   #64748B;
+  --app-text-inverse:  #0F172A;
+
+  --app-border:        #1E293B;
+  --app-border-strong: #334155;
+  --app-divider:       #162135;
+
+  --app-accent:        #3B82F6;
+  --app-accent-soft:   #1E3A8A;
+  --app-accent-fg:     #FFFFFF;
+
+  --app-success:       #22C55E;
+  --app-warning:       #F59E0B;
+  --app-danger:        #EF4444;
+
+  --chart-1: #F8FAFC;
+  --chart-2: #C7D2FE;
+  --chart-3: #60A5FA;
+  --chart-4: #3B82F6;
+  --chart-5: #1D4ED8;
+  --chart-6: #2DD4BF;
+  --chart-grid: #1E293B;
+  --chart-axis: #475569;
 }
 
 * { box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
 
+html,
 body {
+  background-color: var(--app-bg);
+  color: var(--app-text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 240ms ease, color 240ms ease;
 }
+
+::selection { background: var(--app-accent-soft); color: var(--app-text); }
+
+/* Subtle scrollbar styling */
+* { scrollbar-color: var(--app-border-strong) transparent; scrollbar-width: thin; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: var(--app-border-strong); border-radius: 999px; border: 2px solid var(--app-bg); }
+*::-webkit-scrollbar-track { background: transparent; }
