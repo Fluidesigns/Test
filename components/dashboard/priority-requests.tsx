@@ -20,10 +20,9 @@ type Row = {
 };
 
 const rows: Row[] = [
-  { type: "New Purchase", id: "#1212", amount: "$10,000", due: "13 Nov 2025", daysToGo: "45 days to go", priority: "High",   vendor: "Adobe",   vendorInitial: "A", vendorColor: "#EF4444" },
-  { type: "New Purchase", id: "#1213", amount: "$10,000", due: "13 Nov 2025", daysToGo: "45 days to go", priority: "High",   vendor: "Adobe",   vendorInitial: "A", vendorColor: "#EF4444" },
-  { type: "Renewal",      id: "#1214", amount: "$ 8,400", due: "22 Nov 2025", daysToGo: "54 days to go", priority: "Medium", vendor: "Figma",   vendorInitial: "F", vendorColor: "#8B5CF6" },
-  { type: "Catalog Order",id: "#1215", amount: "$ 2,100", due: "05 Dec 2025", daysToGo: "67 days to go", priority: "Low",    vendor: "Notion",  vendorInitial: "N", vendorColor: "#0F172A" },
+  { type: "New Purchase", id: "#1212", amount: "$10,000", due: "13 Nov 2025", daysToGo: "45 days to go", priority: "High", vendor: "Adobe", vendorInitial: "A", vendorColor: "#EF4444" },
+  { type: "New Purchase", id: "#1212", amount: "$10,000", due: "13 Nov 2025", daysToGo: "45 days to go", priority: "High", vendor: "Adobe", vendorInitial: "A", vendorColor: "#EF4444" },
+  { type: "New Purchase", id: "#1212", amount: "$10,000", due: "13 Nov 2025", daysToGo: "45 days to go", priority: "High", vendor: "Adobe", vendorInitial: "A", vendorColor: "#EF4444" },
 ];
 
 const priorityTone: Record<Row["priority"], "danger" | "warning" | "success"> = {
@@ -58,7 +57,7 @@ export function PriorityRequests({ delay = 0 }: { delay?: number }) {
           <tbody>
             {rows.map((r, i) => (
               <motion.tr
-                key={r.id}
+                key={i}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3, delay: delay + 0.12 + i * 0.04 }}

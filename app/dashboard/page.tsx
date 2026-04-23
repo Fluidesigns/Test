@@ -11,7 +11,6 @@ import { AnnualSavings } from "@/components/dashboard/annual-savings";
 import { CustomerSegments } from "@/components/dashboard/customer-segments";
 import { CompletionTime } from "@/components/dashboard/completion-time";
 import { RequestTypeByBU } from "@/components/dashboard/request-by-bu";
-import { SavingsTrend } from "@/components/dashboard/savings-trend";
 import { FiltersRow } from "@/components/dashboard/filters-row";
 
 export default function DashboardPage() {
@@ -69,7 +68,6 @@ export default function DashboardPage() {
 
             <CompletionTime delay={0.1} />
             <RequestTypeByBU delay={0.14} />
-            <SavingsTrend delay={0.16} />
           </div>
 
           {/* RIGHT 1/3 */}

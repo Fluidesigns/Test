@@ -9,16 +9,14 @@ type Row = { category: string; avoidance: number; reduction: number };
 
 const DATA: Record<string, Row[]> = {
   TCV: [
-    { category: "Technology",      avoidance: 78500, reduction: 42300 },
-    { category: "Marketing",       avoidance: 64200, reduction: 38900 },
-    { category: "Facilities",      avoidance: 41300, reduction: 22500 },
-    { category: "Professional Svc",avoidance: 32100, reduction: 17400 },
+    { category: "Technology", avoidance: 78500, reduction: 42300 },
+    { category: "Technology", avoidance: 78500, reduction: 42300 },
+    { category: "Technology", avoidance: 78500, reduction: 42300 },
   ],
   "In-Year": [
-    { category: "Technology",      avoidance: 52300, reduction: 28800 },
-    { category: "Marketing",       avoidance: 40900, reduction: 24600 },
-    { category: "Facilities",      avoidance: 28700, reduction: 14100 },
-    { category: "Professional Svc",avoidance: 19800, reduction: 11200 },
+    { category: "Technology", avoidance: 52300, reduction: 28800 },
+    { category: "Technology", avoidance: 52300, reduction: 28800 },
+    { category: "Technology", avoidance: 52300, reduction: 28800 },
   ],
 };
 
@@ -56,7 +54,7 @@ export function AnnualSavings({ delay = 0 }: { delay?: number }) {
               const total = r.avoidance + r.reduction;
               return (
                 <motion.tr
-                  key={r.category}
+                  key={i}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, delay: delay + 0.12 + i * 0.04 }}

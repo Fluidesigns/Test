@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Moon, Sun, Search, Bell, Sparkles, LayoutGrid, Rows3, Rows4 } from "lucide-react";
+import { Moon, Sun, RefreshCw, LayoutGrid, Rows3, Rows4 } from "lucide-react";
 import { useUI, type Density } from "@/components/providers/ui-provider";
 import { IconButton } from "@/components/ui/icon-button";
 import { cn } from "@/lib/cn";
@@ -25,30 +25,12 @@ export function Topbar({ title }: { title: string }) {
         {title}
       </motion.h1>
 
-      <div className="hidden md:flex items-center ml-4 gap-2 flex-1 max-w-md">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-app-text-subtle" />
-          <input
-            placeholder="Search reports, requests, vendors…"
-            className={cn(
-              "w-full h-9 pl-9 pr-3 rounded-lg text-xs",
-              "bg-app-surface-2 border border-app-border text-app-text",
-              "placeholder:text-app-text-subtle",
-              "focus:outline-none focus:border-app-accent focus:ring-2 focus:ring-app-accent/20",
-            )}
-          />
-        </div>
-      </div>
-
       <div className="ml-auto flex items-center gap-2">
         <DensityControl density={density} onChange={setDensity} />
-        <IconButton aria-label="Notifications">
-          <Bell className="h-4 w-4" />
-        </IconButton>
-        <IconButton aria-label="AI assistant" title="AI insights">
-          <Sparkles className="h-4 w-4 text-app-teal" />
-        </IconButton>
         <ThemeToggle theme={theme} onToggle={toggleTheme} />
+        <IconButton aria-label="Refresh">
+          <RefreshCw className="h-4 w-4" />
+        </IconButton>
       </div>
     </header>
   );
@@ -56,9 +38,9 @@ export function Topbar({ title }: { title: string }) {
 
 function DensityControl({ density, onChange }: { density: Density; onChange: (d: Density) => void }) {
   const items: Array<{ v: Density; Icon: typeof Rows3; label: string }> = [
-    { v: "airy",      Icon: Rows3,    label: "Airy layout" },
-    { v: "balanced",  Icon: LayoutGrid, label: "Balanced layout" },
-    { v: "dense",     Icon: Rows4,    label: "Dense layout" },
+    { v: "airy",     Icon: Rows3,     label: "Airy layout"     },
+    { v: "balanced", Icon: LayoutGrid, label: "Balanced layout" },
+    { v: "dense",    Icon: Rows4,     label: "Dense layout"    },
   ];
   return (
     <div

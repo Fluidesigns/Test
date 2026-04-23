@@ -13,6 +13,7 @@ import {
   FileSignature,
   BookOpen,
   ChevronRight,
+  ChevronDown,
   PanelLeft,
 } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
@@ -24,7 +25,7 @@ type NavItem = {
   label: string;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   active?: boolean;
-  badge?: number;
+  expandable?: boolean;
 };
 
 const nav: NavItem[] = [
@@ -33,8 +34,8 @@ const nav: NavItem[] = [
   { label: "Members",        icon: Users },
   { label: "Policies",       icon: FileText },
   { label: "My Requests",    icon: Inbox },
-  { label: "Action Center",  icon: Bell, badge: 3 },
-  { label: "Procurement",    icon: ShoppingBag },
+  { label: "Action Center",  icon: Bell,         expandable: true },
+  { label: "Procurement Da…",icon: ShoppingBag,  expandable: true },
   { label: "Renewals",       icon: RefreshCw },
   { label: "RFX",            icon: FileSignature },
   { label: "Knowledge Hub",  icon: BookOpen },
@@ -96,7 +97,6 @@ export function Sidebar() {
             <>
               <div className="flex-1 min-w-0">
                 <div className="text-xs font-semibold text-white truncate">Jamie Russo</div>
-                <div className="text-[10px] text-white/50 truncate">Procurement Admin</div>
               </div>
               <ChevronRight className="h-3.5 w-3.5 text-white/50" />
             </>
@@ -127,10 +127,8 @@ function SidebarItem({ item, collapsed }: { item: NavItem; collapsed: boolean })
       )}
       <Icon className="h-4 w-4 shrink-0" />
       {!collapsed && <span className="flex-1 text-left truncate">{item.label}</span>}
-      {!collapsed && item.badge ? (
-        <span className="ml-auto inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-app-teal text-[10px] font-semibold text-[color:var(--app-sidebar)]">
-          {item.badge}
-        </span>
+      {!collapsed && item.expandable ? (
+        <ChevronDown className="h-3.5 w-3.5 text-white/50 shrink-0" />
       ) : null}
     </button>
   );
